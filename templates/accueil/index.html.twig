@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccueilController!{% endblock %}
+
+{% block body %}
+    <h1>Accueil</h1>
+
+    {# Afficher les 3 dernières categories #}
+    <h2>Dernières categories :</h2>
+    <ul>
+        {% for categorie in categories %}
+            <li><a href="{{ path('app_categorie_show', {'id': categorie.id}) }}">{{ categorie.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    {# Vérifier si l'utilisateur est un administrateur #}
+    {% if is_granted('ROLE_ADMIN') %}
+        <div>
+            <h2>Actions administratives :</h2>
+            <ul>
+                <li><a href="{{ path('app_categorie_new') }}">Créer une categorie</a></li>
+                <li><a href="{{ path('app_article_new') }}">Créer un article</a></li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

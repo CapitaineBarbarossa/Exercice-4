@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégorie{% endblock %}
+
+{% block content %}
+    <h1>{{ categorie.titre }}</h1>
+
+    {# Afficher la liste des articles de la categorie #}
+    <h2>Articles dans cette categorie :</h2>
+    <ul>
+        {% for article in articles %}
+            <li><a href="{{ path('app_article_show', {'id': article.id}) }}">{{ article.titre }}</a></li>
+        {% endfor %}
+    </ul>
+
+    {# Vérifier si l'utilisateur est un administrateur #}
+    {% if is_granted('ROLE_ADMIN') %}
+        <div>
+            <h2>Actions administratives :</h2>
+            <ul>
+                <li><a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}">Modifier la categorie</a></li>
+                <li>
+                    <form action="{{ path('app_categorie_delete', {'id': categorie.id}) }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ categorie.id) }}">
+                        <button type="submit">Supprimer la categorie</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article index{% endblock %}
+
+{% block body %}
+    <h1>Article index</h1>
+
+    <table class="table">
+        <tbody>
+        {% for article in articles %}
+        {% if article.status == 'publie' or (article.status == 'brouillon' and article.author == app.user) %}
+            <tr>
+                <td>
+                    <a href="{{ path('app_article_show', {'id': article.id}) }}">{{ article.name }}</a>
+                    <a href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_article_new') }}">Create new</a>
+{% endblock %}
